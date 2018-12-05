@@ -1,0 +1,18 @@
+---
+title: "Curso de Introducción a Inferencia Estadística"
+author: "Javier Cara"
+date: "Noviembre-Diciembre de 2018"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+<br>
+
+# Contenidos
+
+1. [La distribución normal](01_DistribucionNormal.html)
+1. [Estimación puntual y por intervalos](02_Estimacion.html)
+1. [Contraste de hipótesis](03_ContrasteHipotesis.html)

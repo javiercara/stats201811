@@ -1,0 +1,410 @@
+---
+title: "Distribución Normal"
+author: "Javier Cara"
+date: "Noviembre-Diciembre 2018"
+output:
+  html_document:
+    number_sections: true
+    toc: true
+    toc_float: true
+    theme: flatly
+    highlight: tango
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# El histograma
+
+## Datos
+
+Datos procedentes de http://jse.amstat.org/v11n2/datasets.heinz.html
+
+```{r}
+d <- read.table("body.dat.txt")
+```
+
+Las últimas columnas son:
+
+- Columna 22:    Age (years)
+- Columna 23:    Weight (kg)
+- Columna 24:    Height (cm)
+- Columna 25:    Gender (1 - male, 0 - female)
+
+```{r}
+# peso
+altura = d[,24]
+# peso de los hombres
+alturaH = altura[d[,25] == 1]
+```
+
+## Histograma en frecuencias absolutas
+
+```{r}
+h = hist(alturaH, freq = T, labels = T, ylim = c(0,80))
+```
+
+```{r}
+str(h)
+```
+
+
+- Número de hombres con una altura entre 170 y 175 cm:
+
+```{r}
+h$counts[4]
+```
+
+
+- Número de hombres con una altura menor de 180 cm:
+
+```{r}
+sum(h$counts[1:5])
+```
+
+## Histograma en frecuencias relativas
+
+```{r}
+hist(alturaH, freq = F, labels = T, ylim = c(0,0.08))
+```
+
+- Las frecuencias relativas son las frecuencias absolutas entre el numero total de datos:
+
+```{r}
+( fr = h$counts / sum(h$counts) )
+```
+
+- La altura del intervalo *i* (clase) es:
+
+```{r}
+round( fr/5, 3) # dividimos por la longitud del intervalo, porque el area del histograma es 1
+```
+
+- Proporción de hombres con una altura entre 170 y 175 cm:
+
+```{r}
+h$counts[4] / sum(h$counts)
+```
+
+- Proporción de hombres con una altura menor de 180 cm:
+
+```{r}
+sum(h$counts[1:5]) / sum(h$counts)
+```
+
+- El area de todo es histograma es 1:
+
+```{r}
+sum(h$counts[1:9]) / sum(h$counts)
+```
+
+
+## Aproximación del histograma con una curva continua
+
+```{r}
+hist(alturaH, freq = F, ylim = c(0,0.07))
+lines(density(alturaH))
+```
+
+## Aproximación del histograma con la distribución normal
+
+Vamos a utilizar una curva continua con ecuación conocida:
+
+$$
+f(x) = \frac{1}{\sigma \sqrt{2\pi}}e^{-\frac{1}{2\sigma^2}(x-\mu)^2}
+$$
+
+donde $\mu =  media(x)$, $\sigma =  varianza(x)$.
+
+```{r}
+hist(alturaH, freq = F, ylim = c(0,0.07))
+lines(density(alturaH))
+mu = mean(alturaH)
+sigma = sd(alturaH)
+curve(dnorm(x, mu, sigma), add = T, col = "red", lwd=2)
+```
+
+
+```{r}
+# proporción de hombres con una altura menor de 180
+pnorm(180, mean = mu, sd = sigma)
+```
+
+La aproximación es buena.
+
+```{r}
+# proporción de hombres con una altura entre 170 y 175
+(p = pnorm(c(175,170), mean = mu, sd = sigma))
+```
+
+```{r}
+p[1] - p[2]
+```
+
+- El área bajo la curva de la distribución normal es 1:
+
+```{r}
+pnorm(200, mu, sigma)
+```
+
+# La distribución normal
+
+## Definición
+
+La función de densidad de la distribución normal se define como:
+
+$$
+f(x) = \frac{1}{\sigma \sqrt{2\pi}}e^{-\frac{1}{2\sigma^2}(x-\mu)^2}
+$$
+
+donde $\mu =  media(x)$, $\sigma =  varianza(x)$. Esta función permite calcular probabilidades:
+
+$$
+P(X < a) = \int_{-\infty}^a f(x) dx
+$$
+
+$$
+P(a < X < b) = \int_{a}^b f(x) dx = \int_{-\infty}^b f(x) dx - \int_{-\infty}^a f(x) dx = P(X < b) - P(X < a)
+$$
+
+
+## Parámetros de la distribución normal
+
+
+```{r}
+curve(dnorm(x, 0, 1), from = -5, to = 5, ylab = "f(x)", ylim = c(0,0.6))
+```
+
+
+```{r}
+curve(dnorm(x, 0, 1), from = -5, to = 5, ylab = "f(x)", ylim = c(0,0.6))
+curve(dnorm(x, 2, 1), from = -5, to = 5, add = T, col = "blue")
+curve(dnorm(x, -1, 1), from = -5, to = 5, add = T, col = "red")
+legend("topleft", legend = c("dnorm(x, 0, 1)","dnorm(x, 2, 1)","dnorm(x, -1, 1)"), col = c("black","blue","red"), lty = 1, lwd = 1)
+```
+
+
+```{r}
+curve(dnorm(x, 0, 1), from = -5, to = 5, ylab = "f(x)", ylim = c(0,0.6))
+curve(dnorm(x, 0, 2), from = -5, to = 5, add = T, col = "blue")
+curve(dnorm(x, 0, 0.7), from = -5, to = 5, add = T, col = "red")
+legend("topleft", legend = c("dnorm(x, 0, 1)","dnorm(x, 0, 2)","dnorm(x, 0, 0.7)"), col = c("black","blue","red"), lty = 1, lwd = 1)
+```
+
+## Cálculo de probabilidades
+
+La longitud de ciertos tornillos X se modela como una distribución normal de media 30 mm y desviación típica 0.2 mm. Se aceptan como válidos aquellos que cumplen 29.5 < X < 30.3. Calcular:
+
+1. Proporción de tornillos no aceptables por cortos.
+2. Proporción de tornillos no aceptables por largos.
+3. Proporción de tornillos válidos.
+
+*SOLUCIÓN*
+
+```{r}
+# Apartado 1
+pnorm(29.5, mean = 30, sd = 0.2)
+```
+
+```{r}
+# Apartado 2
+pnorm(30.4, mean = 30, sd = 0.2, lower.tail = F)
+```
+
+```{r}
+# también
+1 - pnorm(30.4, mean = 30, sd = 0.2)
+```
+
+```{r}
+# Apartado 3
+(p = pnorm(c(29.5,30.4), mean = 30, sd = 0.2))
+```
+
+```{r}
+p[2] - p[1]
+```
+
+## La distribución N(0,1)
+
+**Teorema**
+
+Si $X \sim N(\mu,\sigma)$ entonces $Z = \frac{X-\mu}{\sigma} \sim N(0,1)$
+
+
+**Consecuencia**
+
+$$
+P \left( X < a \right) = P \left( \frac{X-\mu}{\sigma} \leq \frac{a-\mu}{\sigma} \right) = P \left( Z \leq \frac{a-\mu}{\sigma} \right)
+$$
+
+```{r}
+# X ~ N(5,3)
+pnorm(7.5, mean = 5, sd = 3)
+```
+
+```{r}
+# Z = (X-5)/3 ~ N(0,1)
+pnorm((7.5-5)/3, mean = 0, sd = 1)
+```
+
+## Generacion numeros aleatorios en la N(0,1)
+
+- El número de datos que se generan (aleatoriamente) en el intervalo [a,b] es proporcional al área de la N(0,1) en el intervalo [a,b]:
+
+```{r}
+set.seed(543)
+x = rnorm(300,0,1)
+hist(x, labels = T, ylim = c(0,80))
+```
+
+- Podemos comprobarlo superponiendo la N(0,1) al histograma:
+
+```{r}
+hist(x, freq = F)
+curve(dnorm(x,0,1), add = T)
+```
+
+## Suma de variables normales
+
+TEOREMA
+
+Sean $X_1 \sim N(\mu_1, \sigma_1)$ y $X_2 \sim N(\mu_2, \sigma_2)$. Se tiene que:
+
+$$
+X_1 + X_2 \sim N(\mu_1 + \mu_2, \sqrt{\sigma_1^2 + \sigma_2^2})
+$$
+
+```{r}
+mu1 = -1
+sigma1 = 3
+mu2 = 2
+sigma2 = 4
+# simulamos
+set.seed(553)
+n = 1000
+X1 = rnorm(n,mu1,sigma1)
+X2 = rnorm(n,mu2,sigma2)
+suma = X1 + X2
+hist(suma, freq = F)
+curve( dnorm(x, mean = mu1+mu2, sd = sqrt(sigma1^2 + sigma2^2)), add = T, col = "red")
+```
+
+
+## El Teorema Central del Límite
+
+**Teorema 1**
+
+Si tenemos *n* variables aleatorias que tienen la misma función de densidad, entonces la suma de esas variables tiene distribución normal (conforme $n \rightarrow \infty$).
+
+EJEMPLO
+
+```{r}
+# n variables con distribución uniforme
+y = runif(1000)
+hist(y, freq = F)
+```
+
+
+```{r}
+n = 5
+y = rep(0,1000)
+for (i in 1:n){
+  y = y + runif(1000)
+}
+hist(y, freq = F)
+curve(dnorm(x, mean = mean(y), sd = sd(y)), add = T, col = "red", lwd = 2)
+```
+
+```{r}
+n = 50
+y = rep(0,1000)
+for (i in 1:n){
+  y = y + runif(1000)
+}
+hist(y, freq = F)
+curve(dnorm(x, mean = mean(y), sd = sd(y)), add = T, col = "red", lwd = 2)
+```
+
+**Teorema 2**
+
+Si tenemos *n* variables aleatorias $X_1, X_2, \ldots, X_n$ que tienen la misma función de densidad con $E(X_i) = \mu$ y $Var(X_i) = \sigma^2$, y definimos la variable $\bar X = \frac{X_1 + X_2 + \cdots + X_n}{n}$, entonces se cumple que $\frac{\bar{X} - \mu}{\sigma/\sqrt{n}} \sim N \left( \mu, \frac{\sigma}{\sqrt{n}} \right)$.
+
+EJEMPLO
+
+```{r}
+# media y desviacion tipica de la distribucion uniforme (teoria)
+mu = 1/2
+sigma = sqrt(1/12)
+# por ejemplo, en una simulacion
+xi = runif(1000)
+data.frame(teoria = c(mu, sigma), simulacion = c(mean(xi), sd(xi)), row.names = c("mu", "sigma"))
+```
+
+```{r}
+n = 50
+x = rep(0,1000)
+for (i in 1:n){
+  x = x + runif(1000)
+}
+x_media = x / n
+hist(x_media, freq = F)
+curve(dnorm(x, mean = mu, sd = sigma/sqrt(n)), add = T, col = "red", lwd = 2)
+```
+
+# Comprobación gráfica de la normalidad
+
+## Histograma
+
+```{r}
+hist(alturaH, freq = F, ylim = c(0,0.07))
+curve(dnorm(x, mean = mean(alturaH), sd = sd(alturaH)), add = T, col = "red", lwd=2)
+```
+
+## Gráfico probabilista normal (Q-Q plot)
+
+```{r}
+qqnorm(alturaH)
+qqline(alturaH, col = "red", lwd = 2)
+```
+
+- Sample Quantiles: son los datos ordenados, de menor a mayor.
+
+```{r}
+SampleQ = sort(alturaH)
+```
+
+- Theoretical Quantiles: son los cuantiles de la N(0,1) correspondientes a $(i-0.5)/n$, donde *n* es el número de datos, $i=1,2,\cdots,n$.
+
+```{r}
+n = length(alturaH)
+i = 1:n
+q = (i-0.5)/n
+TheoreticalQ = qnorm(q)
+```
+
+- Se representa TheoreticalQ *vs* sampleQ.
+
+```{r}
+plot(TheoreticalQ,SampleQ)
+```
+
+- Según la ayuda de R, *qqline()* pasa por el primer y tercer cuartil.
+
+```{r}
+plot(TheoreticalQ,SampleQ)
+
+# qqline
+x1 <- qnorm(0.25)
+x2 <- qnorm(0.75)
+y1 <- quantile(alturaH, 0.25)
+y2 <- quantile(alturaH, 0.75)
+b = (y2-y1)/(x2-x1) # pendiente
+a = y1 - b*x1 # y1 = a + b*x1
+abline(a,b, col = "red", lwd = 2) # y = a + b*x
+```
+
+
+
+

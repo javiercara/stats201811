@@ -1,0 +1,1204 @@
+\documentclass[]{article}
+\usepackage{lmodern}
+\usepackage{amssymb,amsmath}
+\usepackage{ifxetex,ifluatex}
+\usepackage{fixltx2e} % provides \textsubscript
+\ifnum 0\ifxetex 1\fi\ifluatex 1\fi=0 % if pdftex
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+\else % if luatex or xelatex
+  \ifxetex
+    \usepackage{mathspec}
+  \else
+    \usepackage{fontspec}
+  \fi
+  \defaultfontfeatures{Ligatures=TeX,Scale=MatchLowercase}
+\fi
+% use upquote if available, for straight quotes in verbatim environments
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+% use microtype if available
+\IfFileExists{microtype.sty}{%
+\usepackage{microtype}
+\UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
+}{}
+\usepackage[margin=1in]{geometry}
+\usepackage{hyperref}
+\hypersetup{unicode=true,
+            pdftitle={Constraste de Hipótesis},
+            pdfauthor={Javier Cara},
+            pdfborder={0 0 0},
+            breaklinks=true}
+\urlstyle{same}  % don't use monospace font for urls
+\usepackage{color}
+\usepackage{fancyvrb}
+\newcommand{\VerbBar}{|}
+\newcommand{\VERB}{\Verb[commandchars=\\\{\}]}
+\DefineVerbatimEnvironment{Highlighting}{Verbatim}{commandchars=\\\{\}}
+% Add ',fontsize=\small' for more characters per line
+\usepackage{framed}
+\definecolor{shadecolor}{RGB}{248,248,248}
+\newenvironment{Shaded}{\begin{snugshade}}{\end{snugshade}}
+\newcommand{\KeywordTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\DataTypeTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{#1}}
+\newcommand{\DecValTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\BaseNTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\FloatTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\ConstantTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\CharTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\SpecialCharTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\StringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\VerbatimStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\SpecialStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\ImportTok}[1]{#1}
+\newcommand{\CommentTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
+\newcommand{\DocumentationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\AnnotationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\CommentVarTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\OtherTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{#1}}
+\newcommand{\FunctionTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\VariableTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\ControlFlowTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\OperatorTok}[1]{\textcolor[rgb]{0.81,0.36,0.00}{\textbf{#1}}}
+\newcommand{\BuiltInTok}[1]{#1}
+\newcommand{\ExtensionTok}[1]{#1}
+\newcommand{\PreprocessorTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
+\newcommand{\AttributeTok}[1]{\textcolor[rgb]{0.77,0.63,0.00}{#1}}
+\newcommand{\RegionMarkerTok}[1]{#1}
+\newcommand{\InformationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\WarningTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\AlertTok}[1]{\textcolor[rgb]{0.94,0.16,0.16}{#1}}
+\newcommand{\ErrorTok}[1]{\textcolor[rgb]{0.64,0.00,0.00}{\textbf{#1}}}
+\newcommand{\NormalTok}[1]{#1}
+\usepackage{graphicx,grffile}
+\makeatletter
+\def\maxwidth{\ifdim\Gin@nat@width>\linewidth\linewidth\else\Gin@nat@width\fi}
+\def\maxheight{\ifdim\Gin@nat@height>\textheight\textheight\else\Gin@nat@height\fi}
+\makeatother
+% Scale images if necessary, so that they will not overflow the page
+% margins by default, and it is still possible to overwrite the defaults
+% using explicit options in \includegraphics[width, height, ...]{}
+\setkeys{Gin}{width=\maxwidth,height=\maxheight,keepaspectratio}
+\IfFileExists{parskip.sty}{%
+\usepackage{parskip}
+}{% else
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{6pt plus 2pt minus 1pt}
+}
+\setlength{\emergencystretch}{3em}  % prevent overfull lines
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+\setcounter{secnumdepth}{0}
+% Redefines (sub)paragraphs to behave more like sections
+\ifx\paragraph\undefined\else
+\let\oldparagraph\paragraph
+\renewcommand{\paragraph}[1]{\oldparagraph{#1}\mbox{}}
+\fi
+\ifx\subparagraph\undefined\else
+\let\oldsubparagraph\subparagraph
+\renewcommand{\subparagraph}[1]{\oldsubparagraph{#1}\mbox{}}
+\fi
+
+%%% Use protect on footnotes to avoid problems with footnotes in titles
+\let\rmarkdownfootnote\footnote%
+\def\footnote{\protect\rmarkdownfootnote}
+
+%%% Change title format to be more compact
+\usepackage{titling}
+
+% Create subtitle command for use in maketitle
+\newcommand{\subtitle}[1]{
+  \posttitle{
+    \begin{center}\large#1\end{center}
+    }
+}
+
+\setlength{\droptitle}{-2em}
+
+  \title{Constraste de Hipótesis}
+    \pretitle{\vspace{\droptitle}\centering\huge}
+  \posttitle{\par}
+    \author{Javier Cara}
+    \preauthor{\centering\large\emph}
+  \postauthor{\par}
+      \predate{\centering\large\emph}
+  \postdate{\par}
+    \date{Noviembre-Diciembre 2018}
+
+
+\begin{document}
+\maketitle
+
+{
+\setcounter{tocdepth}{2}
+\tableofcontents
+}
+\section{Contraste de hipótesis para la media de la distribución
+normal}\label{contraste-de-hipotesis-para-la-media-de-la-distribucion-normal}
+
+\subsection{Planteamiento del
+problema}\label{planteamiento-del-problema}
+
+Se va a construir un puente de hormigón con resistencia a compresión
+igual a 60 N/mm2. Para comprobar que se cumplen las especificaciones del
+proyecto se toman al azar 15 probetas, obteniendo las siguientes
+resistencias a compresión (N/mm2):
+
+40.15, 65.10, 49.50, 22.40, 38.20, 60.40, 43.40, 26.35, 31.20, 55.60,
+47.25, 73.20, 35.90, 45.25, 52.40
+
+Comprobar si el hormigón con el que se está construyendo el puente es
+adecuado o no.
+
+\subsection{Hipótesis nula e hipótesis
+alternativa}\label{hipotesis-nula-e-hipotesis-alternativa}
+
+\begin{itemize}
+\item
+  Consideramos que la resistencia a compresión del hormigón es una
+  variable aleatoria con distribución \(X \sim N(\mu, \sigma^2\)).
+\item
+  La media y la desviación típica muestrales son:
+\end{itemize}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{# muestra}
+\NormalTok{muestra =}\StringTok{ }\KeywordTok{c}\NormalTok{(}\FloatTok{40.15}\NormalTok{, }\FloatTok{65.10}\NormalTok{, }\FloatTok{49.50}\NormalTok{, }\FloatTok{22.40}\NormalTok{, }\FloatTok{38.20}\NormalTok{, }\FloatTok{60.40}\NormalTok{, }\FloatTok{43.40}\NormalTok{, }\FloatTok{26.35}\NormalTok{, }\FloatTok{31.20}\NormalTok{, }\FloatTok{55.60}\NormalTok{, }\FloatTok{47.25}\NormalTok{, }\FloatTok{73.20}\NormalTok{, }\FloatTok{35.90}\NormalTok{, }\FloatTok{45.25}\NormalTok{, }\FloatTok{52.40}\NormalTok{)}
+
+\CommentTok{# media muestral}
+\NormalTok{( }\DataTypeTok{xm =} \KeywordTok{mean}\NormalTok{(muestra) )}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 45.75333
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{# desviación tipica muestral}
+\NormalTok{( }\DataTypeTok{s =} \KeywordTok{sd}\NormalTok{(muestra) )}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 14.20399
+\end{verbatim}
+
+\begin{itemize}
+\item
+  Como la media muestral es inferior a 60 sospechamos que el hormigón
+  del puente tiene una resistencia inferior a 60. Pero queremos
+  comprobar \emph{estadísticamente} que esa diferencia no se debe al
+  caracter aleatorio de las medidas.
+\item
+  En términos estadísticos, el problema se formula mediante una
+  hipótesis nula (\(H_0\)) y una hipótesis alternativa (\(H_1\)):
+\end{itemize}
+
+\[
+\begin{align}
+H_0 \ & : \ \mu = 60 \\
+H_1 \ & : \ \mu < 60
+\end{align}
+\]
+
+\subsection{Solución del contraste}\label{solucion-del-contraste}
+
+Sabemos que el estimador de \(\mu\) es la media muestral y que tiene
+distribución:
+
+\[
+\frac{\bar X - \mu}{S/\sqrt{n}} \sim t_{n-1}
+\]
+
+\begin{itemize}
+\item
+  Vamos a suponer que la hipótesis nula es cierta y comprobaremos que
+  las conclusiones que se obtienen son acordes con esta suposición. En
+  caso contrario, aceptamos que la hipótesis nula no es cierta (es como
+  reduccion al absurdo en matematicas).
+\item
+  Supongamos \(H_0\) cierta, es decir, \(\mu = 60\). Entonces:
+\end{itemize}
+
+\[
+\frac{\bar X - 60}{S/\sqrt{n}} \sim t_{14}
+\]
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{curve}\NormalTok{( }\KeywordTok{dt}\NormalTok{(x, }\DataTypeTok{df =} \DecValTok{14}\NormalTok{), }\DataTypeTok{add =}\NormalTok{ F, }\DataTypeTok{from =} \OperatorTok{-}\DecValTok{4}\NormalTok{, }\DataTypeTok{to =} \DecValTok{4}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{03_ContrasteHipotesis_files/figure-latex/unnamed-chunk-2-1.pdf}
+
+\begin{itemize}
+\item
+  Si la muestra procede de una \(N(60, \sigma^2)\), entonces lo más
+  probable es que \(t_0\) tome valores cercanos a 0, y con menor
+  probabilidad tomará valores mayores que 3 o menores que -3.
+\item
+  Con nuestra muestra, el estadístico \(t_0\) es igual a:
+\end{itemize}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{( }\DataTypeTok{t0 =}\NormalTok{ (xm }\OperatorTok{-}\StringTok{ }\DecValTok{60}\NormalTok{)}\OperatorTok{/}\NormalTok{(s}\OperatorTok{/}\KeywordTok{sqrt}\NormalTok{(}\DecValTok{15}\NormalTok{)) )}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] -3.884619
+\end{verbatim}
+
+\begin{itemize}
+\tightlist
+\item
+  Y se cumple que:
+\end{itemize}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{( }\DataTypeTok{pvalor =} \KeywordTok{pt}\NormalTok{(t0, }\DataTypeTok{df =} \DecValTok{14}\NormalTok{) )}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 0.0008254987
+\end{verbatim}
+
+\begin{itemize}
+\tightlist
+\item
+  Luego la probabilidad de que el estadístico \(t_0\) tome un valor
+  igual o menor a -3.88 es muy pequeña (8.2549866\times 10\^{}\{-4\}). A
+  esta probabilidad se le denomina \textbf{pvalor}. Tenemos dos
+  opciones:
+
+  \begin{itemize}
+  \tightlist
+  \item
+    Considerar que el hormigon tiene resistencia igual a 60 y que nos ha
+    tocado un muestra con una media \emph{rara}, poco probable.
+  \item
+    Considerar que la hipótesis nula no es correcta, es decir, el
+    hormigón tiene resistencia inferior a 60.
+  \end{itemize}
+\item
+  Se suele admitir que consideramos valores \emph{raros} si la
+  probabilidad de esos valores es inferior a 0.05.
+\item
+  Luego admitimos que tenemos una probabilidad de equivocarnos igual a
+  0.05. Se denomina \textbf{nivel de significación del contraste} y se
+  suele representar con la letra \(\alpha\):
+\end{itemize}
+
+\[
+\alpha = P(rechazar \ H_0 | H_0 \ es \ cierta).
+\]
+
+\begin{itemize}
+\tightlist
+\item
+  Otra manera de resolver el contraste es calcular el cuantil de
+  \(\alpha\) y compararlo con \(t_0\):
+\end{itemize}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{qt}\NormalTok{(}\FloatTok{0.05}\NormalTok{, }\DecValTok{14}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] -1.76131
+\end{verbatim}
+
+\begin{itemize}
+\tightlist
+\item
+  Se tiene que \(t_0=\) -3.8846195 \textless{} -1.7613101, luego pvalor
+  \textless{} \(\alpha\).
+\end{itemize}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{curve}\NormalTok{( }\KeywordTok{dt}\NormalTok{(x,}\DataTypeTok{df=}\DecValTok{14}\NormalTok{), }\DataTypeTok{add =}\NormalTok{ F, }\DataTypeTok{from =} \OperatorTok{-}\DecValTok{4}\NormalTok{, }\DataTypeTok{to =} \DecValTok{4}\NormalTok{)}
+\KeywordTok{points}\NormalTok{(}\KeywordTok{qt}\NormalTok{(}\FloatTok{0.05}\NormalTok{, }\DataTypeTok{df =} \DecValTok{14}\NormalTok{),}\DecValTok{0}\NormalTok{, }\DataTypeTok{col =} \StringTok{"red"}\NormalTok{, }\DataTypeTok{pch =} \DecValTok{19}\NormalTok{)}
+\KeywordTok{points}\NormalTok{(t0, }\DecValTok{0}\NormalTok{, }\DataTypeTok{col =} \StringTok{"green"}\NormalTok{, }\DataTypeTok{pch =} \DecValTok{19}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{03_ContrasteHipotesis_files/figure-latex/unnamed-chunk-6-1.pdf}
+
+\begin{itemize}
+\tightlist
+\item
+  En R, el contraste se resuelve utilizando la función \emph{t.test()}:
+\end{itemize}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{t.test}\NormalTok{(muestra, }\DataTypeTok{alternative =} \StringTok{"less"}\NormalTok{, }\DataTypeTok{mu =} \DecValTok{60}\NormalTok{, }\DataTypeTok{conf.level =} \FloatTok{0.95}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+##  One Sample t-test
+## 
+## data:  muestra
+## t = -3.8846, df = 14, p-value = 0.0008255
+## alternative hypothesis: true mean is less than 60
+## 95 percent confidence interval:
+##      -Inf 52.21286
+## sample estimates:
+## mean of x 
+##  45.75333
+\end{verbatim}
+
+\subsection{Contraste bilateral}\label{contraste-bilateral}
+
+\begin{itemize}
+\tightlist
+\item
+  A veces el contraste se plantea como:
+\end{itemize}
+
+\[
+\begin{align}
+H_0 \ & : \ \mu = 60 \\
+H_1 \ & : \ \mu \neq 60
+\end{align}
+\]
+
+\begin{itemize}
+\item
+  El estadístico del contraste es el mismo que antes, que tomaba el
+  valor \(t_0=\) -3.8846195.
+\item
+  En este caso, la zona de rechazo se reparte entre ambas colas de la
+  distribución, \(\alpha/2\) en cada cola. Por tanto, no se acepta la
+  hipótesis nula si el estadístico del contraste toma valores:
+
+  \begin{itemize}
+  \tightlist
+  \item
+    menores que:
+  \end{itemize}
+\end{itemize}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{qt}\NormalTok{(}\FloatTok{0.025}\NormalTok{,}\DecValTok{14}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] -2.144787
+\end{verbatim}
+
+\begin{verbatim}
+- mayores que:
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{qt}\NormalTok{(}\FloatTok{0.975}\NormalTok{,}\DecValTok{14}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 2.144787
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{curve}\NormalTok{( }\KeywordTok{dt}\NormalTok{(x,}\DataTypeTok{df=}\DecValTok{14}\NormalTok{), }\DataTypeTok{add =}\NormalTok{ F, }\DataTypeTok{from =} \OperatorTok{-}\DecValTok{4}\NormalTok{, }\DataTypeTok{to =} \DecValTok{4}\NormalTok{)}
+\KeywordTok{points}\NormalTok{(}\KeywordTok{qt}\NormalTok{(}\FloatTok{0.025}\NormalTok{, }\DataTypeTok{df =} \DecValTok{14}\NormalTok{),}\DecValTok{0}\NormalTok{, }\DataTypeTok{col =} \StringTok{"red"}\NormalTok{, }\DataTypeTok{pch =} \DecValTok{19}\NormalTok{)}
+\KeywordTok{points}\NormalTok{(}\KeywordTok{qt}\NormalTok{(}\FloatTok{0.975}\NormalTok{, }\DataTypeTok{df =} \DecValTok{14}\NormalTok{),}\DecValTok{0}\NormalTok{, }\DataTypeTok{col =} \StringTok{"red"}\NormalTok{, }\DataTypeTok{pch =} \DecValTok{19}\NormalTok{)}
+\KeywordTok{points}\NormalTok{(t0, }\DecValTok{0}\NormalTok{, }\DataTypeTok{col =} \StringTok{"green"}\NormalTok{, }\DataTypeTok{pch =} \DecValTok{19}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{03_ContrasteHipotesis_files/figure-latex/unnamed-chunk-10-1.pdf}
+
+\begin{itemize}
+\tightlist
+\item
+  El pvalor se calcula ahora como:
+\end{itemize}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{( }\DataTypeTok{pvalor =} \DecValTok{2}\OperatorTok{*}\KeywordTok{pt}\NormalTok{(t0,}\DecValTok{14}\NormalTok{) )}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 0.001650997
+\end{verbatim}
+
+\begin{itemize}
+\tightlist
+\item
+  En R:
+\end{itemize}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{t.test}\NormalTok{(muestra, }\DataTypeTok{alternative =} \StringTok{"two.sided"}\NormalTok{, }\DataTypeTok{mu =} \DecValTok{60}\NormalTok{, }\DataTypeTok{conf.level =} \FloatTok{0.95}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+##  One Sample t-test
+## 
+## data:  muestra
+## t = -3.8846, df = 14, p-value = 0.001651
+## alternative hypothesis: true mean is not equal to 60
+## 95 percent confidence interval:
+##  37.88742 53.61924
+## sample estimates:
+## mean of x 
+##  45.75333
+\end{verbatim}
+
+\section{Contraste para la varianza de la distribución
+normal}\label{contraste-para-la-varianza-de-la-distribucion-normal}
+
+\begin{itemize}
+\tightlist
+\item
+  Hemos obtenido una varianza muestral igual a \(14.20^2\) = 201.64.
+  Luego es pertinente plantear el siguiente contraste:
+\end{itemize}
+
+\[
+\begin{align}
+H_0 \ & : \ \sigma^2 = 200 \\
+H_1 \ & : \ \sigma^2 \neq 200
+\end{align}
+\]
+
+\begin{itemize}
+\tightlist
+\item
+  Para resolver el contraste utilizamos la distribución en el muestreo:
+\end{itemize}
+
+\[
+\frac{(n-1)S^2}{\sigma^2} \sim \chi^2_{n-1}
+\]
+
+\begin{itemize}
+\tightlist
+\item
+  Si la hipótesis nula es cierta, \(\sigma^2 = 200\), luego:
+\end{itemize}
+
+\[
+\frac{14S^2}{200} \sim \chi^2_{14}
+\]
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{curve}\NormalTok{( }\KeywordTok{dchisq}\NormalTok{(x,}\DataTypeTok{df=}\DecValTok{14}\NormalTok{), }\DataTypeTok{add =}\NormalTok{ F, }\DataTypeTok{from =} \DecValTok{0}\NormalTok{, }\DataTypeTok{to =} \DecValTok{40}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{03_ContrasteHipotesis_files/figure-latex/unnamed-chunk-13-1.pdf}
+
+\begin{itemize}
+\tightlist
+\item
+  El valor del estadístico del contraste con los datos de la muestra es:
+\end{itemize}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{( }\DataTypeTok{chisq0 =} \DecValTok{14}\OperatorTok{*}\NormalTok{s}\OperatorTok{^}\DecValTok{2}\OperatorTok{/}\DecValTok{200}\NormalTok{ )}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 14.12274
+\end{verbatim}
+
+\begin{itemize}
+\tightlist
+\item
+  Repartimos \(\alpha\) entre las dos colas de la distribución:
+\end{itemize}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{alfa =}\StringTok{ }\FloatTok{0.05}
+\KeywordTok{qchisq}\NormalTok{(alfa}\OperatorTok{/}\DecValTok{2}\NormalTok{, }\DataTypeTok{df =} \DecValTok{14}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 5.628726
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{qchisq}\NormalTok{(}\DecValTok{1}\OperatorTok{-}\NormalTok{alfa}\OperatorTok{/}\DecValTok{2}\NormalTok{, }\DataTypeTok{df =} \DecValTok{14}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 26.11895
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{curve}\NormalTok{( }\KeywordTok{dchisq}\NormalTok{(x,}\DataTypeTok{df=}\DecValTok{14}\NormalTok{), }\DataTypeTok{add =}\NormalTok{ F, }\DataTypeTok{from =} \DecValTok{0}\NormalTok{, }\DataTypeTok{to =} \DecValTok{40}\NormalTok{)}
+\KeywordTok{points}\NormalTok{(}\KeywordTok{qchisq}\NormalTok{(alfa}\OperatorTok{/}\DecValTok{2}\NormalTok{, }\DataTypeTok{df =} \DecValTok{14}\NormalTok{),}\DecValTok{0}\NormalTok{,}\DataTypeTok{col =} \StringTok{"red"}\NormalTok{, }\DataTypeTok{pch =} \DecValTok{19}\NormalTok{)}
+\KeywordTok{points}\NormalTok{(}\KeywordTok{qchisq}\NormalTok{(}\DecValTok{1}\OperatorTok{-}\NormalTok{alfa}\OperatorTok{/}\DecValTok{2}\NormalTok{, }\DataTypeTok{df =} \DecValTok{14}\NormalTok{),}\DecValTok{0}\NormalTok{,}\DataTypeTok{col =} \StringTok{"red"}\NormalTok{, }\DataTypeTok{pch =} \DecValTok{19}\NormalTok{)}
+\KeywordTok{points}\NormalTok{(chisq0,}\DecValTok{0}\NormalTok{,}\DataTypeTok{col =} \StringTok{"green"}\NormalTok{, }\DataTypeTok{pch =} \DecValTok{19}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{03_ContrasteHipotesis_files/figure-latex/unnamed-chunk-17-1.pdf}
+
+\begin{itemize}
+\tightlist
+\item
+  Por tanto, no rechazamos la hipótesis nula.
+\end{itemize}
+
+\section{Contraste igualdad de
+medias}\label{contraste-igualdad-de-medias}
+
+\subsection{Planteamiento del
+problema}\label{planteamiento-del-problema-1}
+
+Se desea comparar dos tratamientos para reducir el nivel de colesterol
+en sangre. Se seleccionan 20 individuos y se asignan al azar a dos tipos
+de dieta, A y B. La reducción del nivel de colesterol tras dos meses de
+dieta son:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{A =}\StringTok{ }\KeywordTok{c}\NormalTok{(}\FloatTok{51.3}\NormalTok{, }\FloatTok{39.4}\NormalTok{, }\FloatTok{26.3}\NormalTok{, }\FloatTok{39.0}\NormalTok{, }\FloatTok{48.1}\NormalTok{, }\FloatTok{34.2}\NormalTok{, }\FloatTok{69.8}\NormalTok{, }\FloatTok{31.3}\NormalTok{, }\FloatTok{45.2}\NormalTok{, }\FloatTok{46.4}\NormalTok{)}
+\NormalTok{B =}\StringTok{ }\KeywordTok{c}\NormalTok{(}\FloatTok{29.6}\NormalTok{, }\FloatTok{47.0}\NormalTok{, }\FloatTok{25.9}\NormalTok{, }\FloatTok{13.0}\NormalTok{, }\FloatTok{33.1}\NormalTok{, }\FloatTok{22.1}\NormalTok{, }\FloatTok{34.1}\NormalTok{, }\FloatTok{19.5}\NormalTok{, }\FloatTok{43.8}\NormalTok{, }\FloatTok{24.9}\NormalTok{)}
+\KeywordTok{data.frame}\NormalTok{(A,B)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##       A    B
+## 1  51.3 29.6
+## 2  39.4 47.0
+## 3  26.3 25.9
+## 4  39.0 13.0
+## 5  48.1 33.1
+## 6  34.2 22.1
+## 7  69.8 34.1
+## 8  31.3 19.5
+## 9  45.2 43.8
+## 10 46.4 24.9
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{# numero de datos, media y desviacion tipica de la dieta A}
+\NormalTok{( }\DataTypeTok{nA =} \KeywordTok{length}\NormalTok{(A) )}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 10
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{( }\DataTypeTok{mA =} \KeywordTok{mean}\NormalTok{(A) )}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 43.1
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{( }\DataTypeTok{sA =} \KeywordTok{sd}\NormalTok{(A) )}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 12.25479
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{# numero de datos, media y desviacion tipica de la dieta B}
+\NormalTok{( }\DataTypeTok{nB =} \KeywordTok{length}\NormalTok{(B) )}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 10
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{( }\DataTypeTok{mB =} \KeywordTok{mean}\NormalTok{(B) )}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 29.3
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{( }\DataTypeTok{sB =} \KeywordTok{sd}\NormalTok{(B) )}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 10.5704
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{# numero total de datos}
+\NormalTok{(}\DataTypeTok{n =}\NormalTok{ nA }\OperatorTok{+}\StringTok{ }\NormalTok{nB)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 20
+\end{verbatim}
+
+\subsection{Planteamiento del
+contraste}\label{planteamiento-del-contraste}
+
+\begin{itemize}
+\tightlist
+\item
+  Se considera el siguiente modelo para los datos:
+\end{itemize}
+
+\[
+\text{Dieta A: } y_{Ai} \sim N(\mu_A, \sigma^2)
+\]
+
+\[
+\text{Dieta A: } y_{Bi} \sim N(\mu_B, \sigma^2)
+\]
+
+\begin{itemize}
+\item
+  Luego suponemos que los datos tienen distinta media pero igual
+  varianza.
+\item
+  El estadístico del contraste es:
+\end{itemize}
+
+\[
+\frac{(\bar{y}_{A} - \bar{y}_{B}) - (\mu_A - \mu_B)}{s_R\sqrt{\frac{1}{n_A} + \frac{1}{n_B}}} \sim t_{n-2}
+\]
+
+\begin{itemize}
+\tightlist
+\item
+  donde:
+\end{itemize}
+
+\[
+s_R = \sqrt{ \frac{(n_A - 1)s_A^2 + (n_B - 1)s_B^2}{n - 2} }
+\]
+
+\begin{itemize}
+\tightlist
+\item
+  El contraste es:
+\end{itemize}
+
+\[
+\begin{align}
+H_0 \ & : \ \mu_A = \mu_B \\
+H_1 \ & : \ \mu_A \neq \mu_B
+\end{align}
+\]
+
+\begin{itemize}
+\tightlist
+\item
+  Supongamos que la hipótesis nula es vedadera, luego:
+\end{itemize}
+
+\[
+t_0 = \frac{(\bar{y}_{A} - \bar{y}_{B})}{s_R\sqrt{\frac{1}{n_A} + \frac{1}{n_B}}} \sim t_{n-2}
+\]
+
+\begin{itemize}
+\tightlist
+\item
+  Si \(\alpha = 0.05\), repartido entre las dos colas al ser un
+  contraste bilateral:
+\end{itemize}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{qt}\NormalTok{(}\FloatTok{0.025}\NormalTok{,}\DataTypeTok{df =}\NormalTok{ n}\OperatorTok{-}\DecValTok{2}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] -2.100922
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{qt}\NormalTok{(}\FloatTok{0.975}\NormalTok{,}\DataTypeTok{df =}\NormalTok{ n}\OperatorTok{-}\DecValTok{2}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 2.100922
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{curve}\NormalTok{( }\KeywordTok{dt}\NormalTok{(x,}\DataTypeTok{df=}\NormalTok{n}\OperatorTok{-}\DecValTok{2}\NormalTok{), }\DataTypeTok{add =}\NormalTok{ F, }\DataTypeTok{from =} \OperatorTok{-}\DecValTok{4}\NormalTok{, }\DataTypeTok{to =} \DecValTok{4}\NormalTok{)}
+\KeywordTok{points}\NormalTok{(}\KeywordTok{qt}\NormalTok{(}\FloatTok{0.025}\NormalTok{, }\DataTypeTok{df =}\NormalTok{ n}\OperatorTok{-}\DecValTok{2}\NormalTok{),}\DecValTok{0}\NormalTok{, }\DataTypeTok{col =} \StringTok{"red"}\NormalTok{, }\DataTypeTok{pch =} \DecValTok{19}\NormalTok{)}
+\KeywordTok{points}\NormalTok{(}\KeywordTok{qt}\NormalTok{(}\FloatTok{0.975}\NormalTok{, }\DataTypeTok{df =}\NormalTok{ n}\OperatorTok{-}\DecValTok{2}\NormalTok{),}\DecValTok{0}\NormalTok{, }\DataTypeTok{col =} \StringTok{"red"}\NormalTok{, }\DataTypeTok{pch =} \DecValTok{19}\NormalTok{)}
+\KeywordTok{points}\NormalTok{(t0, }\DecValTok{0}\NormalTok{, }\DataTypeTok{col =} \StringTok{"green"}\NormalTok{, }\DataTypeTok{pch =} \DecValTok{19}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{03_ContrasteHipotesis_files/figure-latex/unnamed-chunk-24-1.pdf}
+
+\begin{itemize}
+\tightlist
+\item
+  El estadístico del contraste toma el valor:
+\end{itemize}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{( }\DataTypeTok{sR =} \KeywordTok{sqrt}\NormalTok{( ((nA}\OperatorTok{-}\DecValTok{1}\NormalTok{)}\OperatorTok{*}\KeywordTok{var}\NormalTok{(A) }\OperatorTok{+}\StringTok{ }\NormalTok{(nB}\OperatorTok{-}\DecValTok{1}\NormalTok{)}\OperatorTok{*}\KeywordTok{var}\NormalTok{(B))}\OperatorTok{/}\NormalTok{(n}\OperatorTok{-}\DecValTok{2}\NormalTok{) ) )}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 11.44363
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{(}\DataTypeTok{t0 =}\NormalTok{ (}\KeywordTok{mean}\NormalTok{(A) }\OperatorTok{-}\StringTok{ }\KeywordTok{mean}\NormalTok{(B))}\OperatorTok{/}\NormalTok{(sR}\OperatorTok{*}\KeywordTok{sqrt}\NormalTok{(}\DecValTok{1}\OperatorTok{/}\NormalTok{nA}\OperatorTok{+}\DecValTok{1}\OperatorTok{/}\NormalTok{nB)))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 2.696499
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{curve}\NormalTok{( }\KeywordTok{dt}\NormalTok{(x,}\DataTypeTok{df=}\NormalTok{n}\OperatorTok{-}\DecValTok{2}\NormalTok{), }\DataTypeTok{add =}\NormalTok{ F, }\DataTypeTok{from =} \OperatorTok{-}\DecValTok{4}\NormalTok{, }\DataTypeTok{to =} \DecValTok{4}\NormalTok{)}
+\KeywordTok{points}\NormalTok{(}\KeywordTok{qt}\NormalTok{(}\FloatTok{0.025}\NormalTok{, }\DataTypeTok{df =}\NormalTok{ n}\OperatorTok{-}\DecValTok{2}\NormalTok{),}\DecValTok{0}\NormalTok{, }\DataTypeTok{col =} \StringTok{"red"}\NormalTok{, }\DataTypeTok{pch =} \DecValTok{19}\NormalTok{)}
+\KeywordTok{points}\NormalTok{(}\KeywordTok{qt}\NormalTok{(}\FloatTok{0.975}\NormalTok{, }\DataTypeTok{df =}\NormalTok{ n}\OperatorTok{-}\DecValTok{2}\NormalTok{),}\DecValTok{0}\NormalTok{, }\DataTypeTok{col =} \StringTok{"red"}\NormalTok{, }\DataTypeTok{pch =} \DecValTok{19}\NormalTok{)}
+\KeywordTok{points}\NormalTok{(t0, }\DecValTok{0}\NormalTok{, }\DataTypeTok{col =} \StringTok{"green"}\NormalTok{, }\DataTypeTok{pch =} \DecValTok{19}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{03_ContrasteHipotesis_files/figure-latex/unnamed-chunk-27-1.pdf}
+
+\begin{itemize}
+\item
+  Luego no se acepta \(H_0\): las diestas tienen distinta reduccion
+  media del colesterol.
+\item
+  El pvalor del contraste es:
+\end{itemize}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{( }\DataTypeTok{pvalor =} \DecValTok{2}\OperatorTok{*}\KeywordTok{pt}\NormalTok{(t0, }\DataTypeTok{df =}\NormalTok{ n}\OperatorTok{-}\DecValTok{2}\NormalTok{, }\DataTypeTok{lower.tail =}\NormalTok{ F) )}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 0.01476099
+\end{verbatim}
+
+\begin{itemize}
+\tightlist
+\item
+  En R:
+\end{itemize}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{t.test}\NormalTok{(A, B, }\DataTypeTok{var.equal =}\NormalTok{ T)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+##  Two Sample t-test
+## 
+## data:  A and B
+## t = 2.6965, df = 18, p-value = 0.01476
+## alternative hypothesis: true difference in means is not equal to 0
+## 95 percent confidence interval:
+##   3.048013 24.551987
+## sample estimates:
+## mean of x mean of y 
+##      43.1      29.3
+\end{verbatim}
+
+\section{Contraste de igualdad de
+varianzas}\label{contraste-de-igualdad-de-varianzas}
+
+\begin{itemize}
+\tightlist
+\item
+  Hemos supuesto que la varianza de las dos diestas es la misma. Esta
+  hipótesis se puede comprobar con otro contraste:
+\end{itemize}
+
+\[
+\begin{align}
+H_0 \ & : \ \sigma_A^2 = \sigma_B^2 \\
+H_1 \ & : \ \sigma_A^2 \neq \sigma_B^2
+\end{align}
+\]
+
+\begin{itemize}
+\tightlist
+\item
+  No vamos a entrar en detalles, pero este contraste se puede resolver
+  con:
+\end{itemize}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{var.test}\NormalTok{(A, B)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+##  F test to compare two variances
+## 
+## data:  A and B
+## F = 1.3441, num df = 9, denom df = 9, p-value = 0.6667
+## alternative hypothesis: true ratio of variances is not equal to 1
+## 95 percent confidence interval:
+##  0.3338537 5.4113109
+## sample estimates:
+## ratio of variances 
+##           1.344093
+\end{verbatim}
+
+\section{\texorpdfstring{Contraste \(\chi^2\) de bondad de
+ajuste}{Contraste \textbackslash{}chi\^{}2 de bondad de ajuste}}\label{contraste-chi2-de-bondad-de-ajuste}
+
+\subsection{Planteamiento del
+contraste}\label{planteamiento-del-contraste-1}
+
+\[
+\begin{align}
+H_0 \ & : \ X_i \sim f_X \\
+H_1 \ & : \ X_i \nsim f_X
+\end{align}
+\]
+
+\begin{itemize}
+\item
+  Es decir, se contrasta si los datos tienen una distribución
+  estadística determinada o no.
+\item
+  El estadístico del contraste es:
+\end{itemize}
+
+\[
+\chi^2_0 = \sum_{k=1}^{K} \frac{(O_k - E_k)^2}{E_k} \sim \chi^2_{K-r-1}
+\]
+
+\begin{itemize}
+\tightlist
+\item
+  donde
+
+  \begin{itemize}
+  \tightlist
+  \item
+    \(K\): es el número de intervalos en el que dividimos los datos.
+  \item
+    \(O_k\): numero de datos en el intervalo k.
+  \item
+    \(E_k\): numero de datos esperados en el intervalo k si \(H_0\)
+    fuese cierta.
+  \item
+    \(r\): numero de parámetros desconocidos de \(f_X\).
+  \end{itemize}
+\end{itemize}
+
+\subsection{\texorpdfstring{Contraste \(\chi^2\) de bondad de ajuste
+para la distribución
+uniforme}{Contraste \textbackslash{}chi\^{}2 de bondad de ajuste para la distribución uniforme}}\label{contraste-chi2-de-bondad-de-ajuste-para-la-distribucion-uniforme}
+
+\begin{itemize}
+\tightlist
+\item
+  Se ha lanzado 300 veces un dado y se han obtenido los resultados:
+\end{itemize}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{Ok =}\StringTok{ }\KeywordTok{c}\NormalTok{(}\DecValTok{49}\NormalTok{,}\DecValTok{59}\NormalTok{,}\DecValTok{49}\NormalTok{,}\DecValTok{51}\NormalTok{,}\DecValTok{43}\NormalTok{,}\DecValTok{49}\NormalTok{)}
+\KeywordTok{data.frame}\NormalTok{(}\DataTypeTok{num =} \DecValTok{1}\OperatorTok{:}\DecValTok{6}\NormalTok{, Ok)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##   num Ok
+## 1   1 49
+## 2   2 59
+## 3   3 49
+## 4   4 51
+## 5   5 43
+## 6   6 49
+\end{verbatim}
+
+\begin{itemize}
+\tightlist
+\item
+  Se puede afirmar que el dado esta desequilibrado (\(\alpha=0.05\))?
+\item
+  Si el dado está equilibrado, la probabilidad de obtener cada numero es
+  la misma. Luego si lanzamos 300 veces el dado se deberían haber
+  obtenido 50 veces cada numero.
+\end{itemize}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{Ek =}\StringTok{ }\KeywordTok{rep}\NormalTok{(}\DecValTok{50}\NormalTok{,}\DecValTok{6}\NormalTok{)}
+\KeywordTok{data.frame}\NormalTok{(}\DataTypeTok{num =} \DecValTok{1}\OperatorTok{:}\DecValTok{6}\NormalTok{, Ok, Ek)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##   num Ok Ek
+## 1   1 49 50
+## 2   2 59 50
+## 3   3 49 50
+## 4   4 51 50
+## 5   5 43 50
+## 6   6 49 50
+\end{verbatim}
+
+\begin{itemize}
+\tightlist
+\item
+  El valor del estadístico del contraste con nuestros datos es:
+\end{itemize}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{( }\DataTypeTok{chisq0 =} \KeywordTok{sum}\NormalTok{( (Ok }\OperatorTok{-}\StringTok{ }\NormalTok{Ek)}\OperatorTok{^}\DecValTok{2} \OperatorTok{/}\StringTok{ }\NormalTok{Ek ) )}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 2.68
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{K =}\StringTok{ }\DecValTok{6}
+\NormalTok{r =}\StringTok{ }\DecValTok{0}
+\NormalTok{alfa =}\StringTok{ }\FloatTok{0.05}
+\CommentTok{#}
+\KeywordTok{curve}\NormalTok{( }\KeywordTok{dchisq}\NormalTok{(x, }\DataTypeTok{df =}\NormalTok{ K}\OperatorTok{-}\NormalTok{r}\OperatorTok{-}\DecValTok{1}\NormalTok{), }\DataTypeTok{add =}\NormalTok{ F, }\DataTypeTok{from =} \DecValTok{0}\NormalTok{, }\DataTypeTok{to =} \DecValTok{40}\NormalTok{)}
+\KeywordTok{points}\NormalTok{(}\KeywordTok{qchisq}\NormalTok{(alfa}\OperatorTok{/}\DecValTok{2}\NormalTok{, }\DataTypeTok{df =}\NormalTok{ K}\OperatorTok{-}\NormalTok{r}\OperatorTok{-}\DecValTok{1}\NormalTok{),}\DecValTok{0}\NormalTok{,}\DataTypeTok{col =} \StringTok{"red"}\NormalTok{, }\DataTypeTok{pch =} \DecValTok{19}\NormalTok{)}
+\KeywordTok{points}\NormalTok{(}\KeywordTok{qchisq}\NormalTok{(}\DecValTok{1}\OperatorTok{-}\NormalTok{alfa}\OperatorTok{/}\DecValTok{2}\NormalTok{, }\DataTypeTok{df =}\NormalTok{ K}\OperatorTok{-}\NormalTok{r}\OperatorTok{-}\DecValTok{1}\NormalTok{),}\DecValTok{0}\NormalTok{,}\DataTypeTok{col =} \StringTok{"red"}\NormalTok{, }\DataTypeTok{pch =} \DecValTok{19}\NormalTok{)}
+\KeywordTok{points}\NormalTok{(chisq0,}\DecValTok{0}\NormalTok{,}\DataTypeTok{col =} \StringTok{"green"}\NormalTok{, }\DataTypeTok{pch =} \DecValTok{19}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{03_ContrasteHipotesis_files/figure-latex/unnamed-chunk-34-1.pdf}
+
+\begin{itemize}
+\tightlist
+\item
+  En R:
+\end{itemize}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{chisq.test}\NormalTok{(Ok, }\DataTypeTok{p =} \KeywordTok{rep}\NormalTok{(}\DecValTok{1}\OperatorTok{/}\DecValTok{6}\NormalTok{,}\DecValTok{6}\NormalTok{))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+##  Chi-squared test for given probabilities
+## 
+## data:  Ok
+## X-squared = 2.68, df = 5, p-value = 0.7492
+\end{verbatim}
+
+\subsection{\texorpdfstring{Contraste \(\chi^2\) de bondad de ajuste
+para la distribución
+normal}{Contraste \textbackslash{}chi\^{}2 de bondad de ajuste para la distribución normal}}\label{contraste-chi2-de-bondad-de-ajuste-para-la-distribucion-normal}
+
+\begin{itemize}
+\tightlist
+\item
+  Vamos a comprobar la normalidad de la altura de los hombres:
+\end{itemize}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{d <-}\StringTok{ }\KeywordTok{read.table}\NormalTok{(}\StringTok{"body.dat.txt"}\NormalTok{)}
+\CommentTok{# peso}
+\NormalTok{altura =}\StringTok{ }\NormalTok{d[,}\DecValTok{24}\NormalTok{]}
+\CommentTok{# peso de los hombres}
+\NormalTok{alturaH =}\StringTok{ }\NormalTok{altura[d[,}\DecValTok{25}\NormalTok{] }\OperatorTok{==}\StringTok{ }\DecValTok{1}\NormalTok{]}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{itemize}
+\tightlist
+\item
+  Dividimos los datos en intervalos. El histograma lo hace
+  automaticamente:
+\end{itemize}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{h =}\StringTok{ }\KeywordTok{hist}\NormalTok{(alturaH, }\DataTypeTok{breaks =} \KeywordTok{seq}\NormalTok{(}\DataTypeTok{from =} \DecValTok{155}\NormalTok{, }\DataTypeTok{to =} \DecValTok{200}\NormalTok{, }\DataTypeTok{by =} \DecValTok{5}\NormalTok{), }\DataTypeTok{label =}\NormalTok{ T)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{03_ContrasteHipotesis_files/figure-latex/unnamed-chunk-37-1.pdf}
+
+\begin{itemize}
+\tightlist
+\item
+  Es recomendable que los intervalos tengan más de 5 datos. En caso
+  contrario, agrupamos:
+\end{itemize}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{intervalos =}\StringTok{ }\KeywordTok{c}\NormalTok{(}\DecValTok{155}\NormalTok{,}\DecValTok{165}\NormalTok{,}\DecValTok{170}\NormalTok{,}\DecValTok{175}\NormalTok{,}\DecValTok{180}\NormalTok{,}\DecValTok{185}\NormalTok{,}\DecValTok{190}\NormalTok{,}\DecValTok{200}\NormalTok{)}
+\NormalTok{h =}\StringTok{ }\KeywordTok{hist}\NormalTok{(alturaH, }\DataTypeTok{breaks =}\NormalTok{ intervalos, }\DataTypeTok{plot =}\NormalTok{ F)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{itemize}
+\tightlist
+\item
+  Valores observados:
+\end{itemize}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{( }\DataTypeTok{Ok =}\NormalTok{ h}\OperatorTok{$}\NormalTok{counts )}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1]  7 28 44 76 50 28 14
+\end{verbatim}
+
+\begin{itemize}
+\tightlist
+\item
+  Valores esperados
+\end{itemize}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{# H0 : X ~ N(mean(x), sd(x))}
+\NormalTok{K =}\StringTok{ }\KeywordTok{length}\NormalTok{(intervalos)}
+\NormalTok{intervalos[}\DecValTok{1}\NormalTok{] =}\StringTok{ }\OperatorTok{-}\FloatTok{1e6}
+\NormalTok{intervalos[K] =}\StringTok{ }\FloatTok{1e6}
+\NormalTok{pE =}\StringTok{ }\KeywordTok{rep}\NormalTok{(}\DecValTok{0}\NormalTok{,K}\OperatorTok{-}\DecValTok{1}\NormalTok{) }\CommentTok{# probabilidades esperadas}
+\ControlFlowTok{for}\NormalTok{ (k }\ControlFlowTok{in} \DecValTok{1}\OperatorTok{:}\NormalTok{(K}\OperatorTok{-}\DecValTok{1}\NormalTok{))\{}
+\NormalTok{  p1 =}\StringTok{ }\KeywordTok{pnorm}\NormalTok{(intervalos[k], }\KeywordTok{mean}\NormalTok{(alturaH), }\KeywordTok{sd}\NormalTok{(alturaH))}
+\NormalTok{  p2 =}\StringTok{ }\KeywordTok{pnorm}\NormalTok{(intervalos[k}\OperatorTok{+}\DecValTok{1}\NormalTok{], }\KeywordTok{mean}\NormalTok{(alturaH), }\KeywordTok{sd}\NormalTok{(alturaH))}
+\NormalTok{  pE[k] =}\StringTok{ }\NormalTok{p2 }\OperatorTok{-}\StringTok{ }\NormalTok{p1}
+\NormalTok{\}}
+\NormalTok{( }\DataTypeTok{Ek =}\NormalTok{ pE}\OperatorTok{*}\KeywordTok{sum}\NormalTok{(}\KeywordTok{length}\NormalTok{(alturaH)) ) }\CommentTok{# datos esperados en cada intervalo}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1]  9.389287 25.307700 52.041715 67.188345 54.473119 27.728868 10.870965
+\end{verbatim}
+
+\begin{itemize}
+\tightlist
+\item
+  Valor del estadistico del contraste:
+\end{itemize}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{( }\DataTypeTok{chisq0 =} \KeywordTok{sum}\NormalTok{( (Ok }\OperatorTok{-}\StringTok{ }\NormalTok{Ek)}\OperatorTok{^}\DecValTok{2} \OperatorTok{/}\StringTok{ }\NormalTok{Ek ) )}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 4.563301
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{r =}\StringTok{ }\DecValTok{2}
+\NormalTok{alfa =}\StringTok{ }\FloatTok{0.05}
+\CommentTok{#}
+\KeywordTok{curve}\NormalTok{( }\KeywordTok{dchisq}\NormalTok{(x, }\DataTypeTok{df =}\NormalTok{ K}\OperatorTok{-}\NormalTok{r}\OperatorTok{-}\DecValTok{1}\NormalTok{), }\DataTypeTok{add =}\NormalTok{ F, }\DataTypeTok{from =} \DecValTok{0}\NormalTok{, }\DataTypeTok{to =} \DecValTok{40}\NormalTok{)}
+\KeywordTok{points}\NormalTok{(}\KeywordTok{qchisq}\NormalTok{(alfa}\OperatorTok{/}\DecValTok{2}\NormalTok{, }\DataTypeTok{df =}\NormalTok{ K}\OperatorTok{-}\NormalTok{r}\OperatorTok{-}\DecValTok{1}\NormalTok{),}\DecValTok{0}\NormalTok{,}\DataTypeTok{col =} \StringTok{"red"}\NormalTok{, }\DataTypeTok{pch =} \DecValTok{19}\NormalTok{)}
+\KeywordTok{points}\NormalTok{(}\KeywordTok{qchisq}\NormalTok{(}\DecValTok{1}\OperatorTok{-}\NormalTok{alfa}\OperatorTok{/}\DecValTok{2}\NormalTok{, }\DataTypeTok{df =}\NormalTok{ K}\OperatorTok{-}\NormalTok{r}\OperatorTok{-}\DecValTok{1}\NormalTok{),}\DecValTok{0}\NormalTok{,}\DataTypeTok{col =} \StringTok{"red"}\NormalTok{, }\DataTypeTok{pch =} \DecValTok{19}\NormalTok{)}
+\KeywordTok{points}\NormalTok{(chisq0,}\DecValTok{0}\NormalTok{,}\DataTypeTok{col =} \StringTok{"green"}\NormalTok{, }\DataTypeTok{pch =} \DecValTok{19}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{03_ContrasteHipotesis_files/figure-latex/unnamed-chunk-42-1.pdf}
+
+\begin{itemize}
+\item
+  Luego no se puede rechazar la hipotesis nula (los datos son normales).
+\item
+  En R:
+\end{itemize}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{chisq.test}\NormalTok{(Ok, }\DataTypeTok{p =}\NormalTok{ pE)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+##  Chi-squared test for given probabilities
+## 
+## data:  Ok
+## X-squared = 4.5633, df = 6, p-value = 0.6009
+\end{verbatim}
+
+\begin{itemize}
+\tightlist
+\item
+  Ojo, en R los grados de libertad son K - 1.
+\end{itemize}
+
+
+\end{document}

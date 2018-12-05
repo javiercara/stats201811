@@ -1,0 +1,503 @@
+---
+title: "Constraste de Hipótesis"
+author: "Javier Cara"
+date: "Noviembre-Diciembre 2018"
+output:
+  html_document:
+    highlight: tango
+    number_sections: yes
+    theme: flatly
+    toc: yes
+    toc_float: yes
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Contraste de hipótesis para la media de la distribución normal
+
+## Planteamiento del problema
+
+Se va a construir un puente de hormigón con resistencia a compresión igual a 60 N/mm2. Para comprobar que se cumplen las especificaciones del proyecto se toman al azar 15 probetas, obteniendo las siguientes resistencias a compresión (N/mm2):
+
+40.15, 65.10, 49.50, 22.40, 38.20, 60.40, 43.40, 26.35, 31.20, 55.60, 47.25, 73.20, 35.90, 45.25, 52.40
+
+Comprobar si el hormigón con el que se está construyendo el puente es adecuado o no.
+
+## Hipótesis nula e hipótesis alternativa
+
+- Consideramos que la resistencia a compresión del hormigón es una variable aleatoria con distribución $X \sim N(\mu, \sigma^2$). 
+
+- La media y la desviación típica muestrales son:
+
+```{r}
+# muestra
+muestra = c(40.15, 65.10, 49.50, 22.40, 38.20, 60.40, 43.40, 26.35, 31.20, 55.60, 47.25, 73.20, 35.90, 45.25, 52.40)
+
+# media muestral
+( xm = mean(muestra) )
+
+# desviación tipica muestral
+( s = sd(muestra) )
+```
+
+- Como la media muestral es inferior a 60 sospechamos que el hormigón del puente tiene una resistencia inferior a 60. Pero queremos comprobar *estadísticamente* que esa diferencia no se debe al caracter aleatorio de las medidas.
+
+- En términos estadísticos, el problema se formula mediante una hipótesis nula ($H_0$) y una hipótesis alternativa ($H_1$):
+
+$$
+\begin{align}
+H_0 \ & : \ \mu = 60 \\
+H_1 \ & : \ \mu < 60
+\end{align}
+$$
+
+
+## Solución del contraste
+
+Sabemos que el estimador de $\mu$ es la media muestral y que tiene distribución:
+
+$$
+\frac{\bar X - \mu}{S/\sqrt{n}} \sim t_{n-1}
+$$
+
+- Vamos a suponer que la hipótesis nula es cierta y comprobaremos que las conclusiones que se obtienen son acordes con esta suposición. En caso contrario, aceptamos que la hipótesis nula no es cierta (es como reduccion al absurdo en matematicas).
+
+- Supongamos $H_0$ cierta, es decir, $\mu = 60$. Entonces:
+
+$$
+\frac{\bar X - 60}{S/\sqrt{n}} \sim t_{14}
+$$
+
+```{r}
+curve( dt(x, df = 14), add = F, from = -4, to = 4)
+```
+
+- Si la muestra procede de una $N(60, \sigma^2)$, entonces lo más probable es que $t_0$ tome valores cercanos a 0, y con menor probabilidad tomará valores mayores que 3 o menores que -3.
+
+- Con nuestra muestra, el estadístico $t_0$ es igual a:
+
+```{r}
+( t0 = (xm - 60)/(s/sqrt(15)) )
+```
+
+- Y se cumple que:
+
+```{r}
+( pvalor = pt(t0, df = 14) )
+```
+
+- Luego la probabilidad de que el estadístico $t_0$ tome un valor igual o menor a `r round(t0,2)` es muy pequeña (`r pvalor`). A esta probabilidad se le denomina **pvalor**. Tenemos dos opciones:
+    - Considerar que el hormigon tiene resistencia igual a 60 y que nos ha tocado un muestra con una media *rara*, poco probable.
+    - Considerar que la hipótesis nula no es correcta, es decir, el hormigón tiene resistencia inferior a 60.
+- Se suele admitir que consideramos valores *raros* si la probabilidad de esos valores es inferior a 0.05.
+- Luego admitimos que tenemos una probabilidad de equivocarnos igual a 0.05. Se denomina **nivel de significación del contraste** y se suele representar con la letra $\alpha$:
+
+$$
+\alpha = P(rechazar \ H_0 | H_0 \ es \ cierta).
+$$
+
+- Otra manera de resolver el contraste es calcular el cuantil de $\alpha$ y compararlo con $t_0$:
+
+```{r}
+qt(0.05, 14)
+```
+
+- Se tiene que $t_0=$ `r t0` < `r qt(0.05, 14)`, luego pvalor < $\alpha$.
+
+```{r}
+curve( dt(x,df=14), add = F, from = -4, to = 4)
+points(qt(0.05, df = 14),0, col = "red", pch = 19)
+points(t0, 0, col = "green", pch = 19)
+```
+
+
+- En R, el contraste se resuelve utilizando la función *t.test()*:
+
+```{r}
+t.test(muestra, alternative = "less", mu = 60, conf.level = 0.95)
+```
+
+
+## Contraste bilateral
+
+- A veces el contraste se plantea como:
+
+$$
+\begin{align}
+H_0 \ & : \ \mu = 60 \\
+H_1 \ & : \ \mu \neq 60
+\end{align}
+$$
+
+- El estadístico del contraste es el mismo que antes, que tomaba el valor $t_0=$ `r t0`.
+
+- En este caso, la zona de rechazo se reparte entre ambas colas de la distribución, $\alpha/2$ en cada cola. Por tanto, no se acepta la hipótesis nula si el estadístico del contraste toma valores:
+    - menores que:
+
+```{r}
+qt(0.025,14)
+```
+
+    - mayores que:
+    
+```{r}
+qt(0.975,14)
+```
+
+```{r}
+curve( dt(x,df=14), add = F, from = -4, to = 4)
+points(qt(0.025, df = 14),0, col = "red", pch = 19)
+points(qt(0.975, df = 14),0, col = "red", pch = 19)
+points(t0, 0, col = "green", pch = 19)
+```
+
+- El pvalor se calcula ahora como:
+
+```{r}
+( pvalor = 2*pt(t0,14) )
+```
+
+- En R:
+
+```{r}
+t.test(muestra, alternative = "two.sided", mu = 60, conf.level = 0.95)
+```
+
+# Contraste para la varianza de la distribución normal
+
+- Hemos obtenido una varianza muestral igual a $14.20^2$ = `r 14.2^2`. Luego es pertinente plantear el siguiente contraste:
+
+$$
+\begin{align}
+H_0 \ & : \ \sigma^2 = 200 \\
+H_1 \ & : \ \sigma^2 \neq 200
+\end{align}
+$$
+
+- Para resolver el contraste utilizamos la distribución en el muestreo:
+
+$$
+\frac{(n-1)S^2}{\sigma^2} \sim \chi^2_{n-1}
+$$
+
+- Si la hipótesis nula es cierta, $\sigma^2 = 200$, luego:
+
+$$
+\frac{14S^2}{200} \sim \chi^2_{14}
+$$
+
+```{r}
+curve( dchisq(x,df=14), add = F, from = 0, to = 40)
+```
+
+- El valor del estadístico del contraste con los datos de la muestra es:
+
+```{r}
+( chisq0 = 14*s^2/200 )
+```
+
+- Repartimos $\alpha$ entre las dos colas de la distribución:
+
+```{r}
+alfa = 0.05
+qchisq(alfa/2, df = 14)
+```
+
+```{r}
+qchisq(1-alfa/2, df = 14)
+```
+
+```{r}
+curve( dchisq(x,df=14), add = F, from = 0, to = 40)
+points(qchisq(alfa/2, df = 14),0,col = "red", pch = 19)
+points(qchisq(1-alfa/2, df = 14),0,col = "red", pch = 19)
+points(chisq0,0,col = "green", pch = 19)
+```
+
+
+- Por tanto, no rechazamos la hipótesis nula.
+
+# Contraste igualdad de medias
+
+## Planteamiento del problema
+
+Se desea comparar dos tratamientos para reducir el nivel de colesterol en sangre. Se seleccionan 20 individuos y se asignan al azar a dos tipos de dieta, A y B. La reducción del nivel de colesterol tras dos meses de dieta son:
+
+```{r}
+A = c(51.3, 39.4, 26.3, 39.0, 48.1, 34.2, 69.8, 31.3, 45.2, 46.4)
+B = c(29.6, 47.0, 25.9, 13.0, 33.1, 22.1, 34.1, 19.5, 43.8, 24.9)
+data.frame(A,B)
+```
+
+```{r}
+# numero de datos, media y desviacion tipica de la dieta A
+( nA = length(A) )
+( mA = mean(A) )
+( sA = sd(A) )
+```
+
+```{r}
+# numero de datos, media y desviacion tipica de la dieta B
+( nB = length(B) )
+( mB = mean(B) )
+( sB = sd(B) )
+```
+
+```{r}
+# numero total de datos
+(n = nA + nB)
+```
+
+
+## Planteamiento del contraste
+
+- Se considera el siguiente modelo para los datos:
+
+$$
+\text{Dieta A: } y_{Ai} \sim N(\mu_A, \sigma^2)
+$$
+
+$$
+\text{Dieta A: } y_{Bi} \sim N(\mu_B, \sigma^2)
+$$
+
+- Luego suponemos que los datos tienen distinta media pero igual varianza.
+
+- El estadístico del contraste es:
+
+$$
+\frac{(\bar{y}_{A} - \bar{y}_{B}) - (\mu_A - \mu_B)}{s_R\sqrt{\frac{1}{n_A} + \frac{1}{n_B}}} \sim t_{n-2}
+$$
+
+- donde:
+
+$$
+s_R = \sqrt{ \frac{(n_A - 1)s_A^2 + (n_B - 1)s_B^2}{n - 2} }
+$$
+
+- El contraste es:
+
+$$
+\begin{align}
+H_0 \ & : \ \mu_A = \mu_B \\
+H_1 \ & : \ \mu_A \neq \mu_B
+\end{align}
+$$
+
+- Supongamos que la hipótesis nula es vedadera, luego:
+
+$$
+t_0 = \frac{(\bar{y}_{A} - \bar{y}_{B})}{s_R\sqrt{\frac{1}{n_A} + \frac{1}{n_B}}} \sim t_{n-2}
+$$
+
+- Si $\alpha = 0.05$, repartido entre las dos colas al ser un contraste bilateral:
+
+```{r}
+qt(0.025,df = n-2)
+```
+
+```{r}
+qt(0.975,df = n-2)
+```
+
+```{r}
+curve( dt(x,df=n-2), add = F, from = -4, to = 4)
+points(qt(0.025, df = n-2),0, col = "red", pch = 19)
+points(qt(0.975, df = n-2),0, col = "red", pch = 19)
+points(t0, 0, col = "green", pch = 19)
+```
+
+- El estadístico del contraste toma el valor:
+
+```{r}
+( sR = sqrt( ((nA-1)*var(A) + (nB-1)*var(B))/(n-2) ) )
+```
+
+```{r}
+(t0 = (mean(A) - mean(B))/(sR*sqrt(1/nA+1/nB)))
+```
+
+```{r}
+curve( dt(x,df=n-2), add = F, from = -4, to = 4)
+points(qt(0.025, df = n-2),0, col = "red", pch = 19)
+points(qt(0.975, df = n-2),0, col = "red", pch = 19)
+points(t0, 0, col = "green", pch = 19)
+```
+
+- Luego no se acepta $H_0$: las diestas tienen distinta reduccion media del colesterol.
+
+- El pvalor del contraste es:
+
+```{r}
+( pvalor = 2*pt(t0, df = n-2, lower.tail = F) )
+```
+
+- En R:
+
+```{r}
+t.test(A, B, var.equal = T)
+```
+
+
+# Contraste de igualdad de varianzas
+
+- Hemos supuesto que la varianza de las dos diestas es la misma. Esta hipótesis se puede comprobar con otro contraste:
+
+$$
+\begin{align}
+H_0 \ & : \ \sigma_A^2 = \sigma_B^2 \\
+H_1 \ & : \ \sigma_A^2 \neq \sigma_B^2
+\end{align}
+$$
+
+- No vamos a entrar en detalles, pero este contraste se puede resolver con:
+
+```{r}
+var.test(A, B)
+```
+
+# Contraste $\chi^2$ de bondad de ajuste
+
+## Planteamiento del contraste
+
+$$
+\begin{align}
+H_0 \ & : \ X_i \sim f_X \\
+H_1 \ & : \ X_i \nsim f_X
+\end{align}
+$$
+
+- Es decir, se contrasta si los datos tienen una distribución estadística determinada o no.
+
+- El estadístico del contraste es:
+
+$$
+\chi^2_0 = \sum_{k=1}^{K} \frac{(O_k - E_k)^2}{E_k} \sim \chi^2_{K-r-1}
+$$
+
+- donde 
+    - $K$: es el número de intervalos en el que dividimos los datos.
+    - $O_k$: numero de datos en el intervalo k.
+    - $E_k$: numero de datos esperados en el intervalo k si $H_0$ fuese cierta.
+    - $r$: numero de parámetros desconocidos de $f_X$.
+
+## Contraste $\chi^2$ de bondad de ajuste para la distribución uniforme
+
+- Se ha lanzado 300 veces un dado y se han obtenido los resultados:
+
+```{r}
+Ok = c(49,59,49,51,43,49)
+data.frame(num = 1:6, Ok)
+```
+
+- Se puede afirmar que el dado esta desequilibrado ($\alpha=0.05$)?
+- Si el dado está equilibrado, la probabilidad de obtener cada numero es la misma. Luego si lanzamos 300 veces el dado se deberían haber obtenido 50 veces cada numero.
+
+```{r}
+Ek = rep(50,6)
+data.frame(num = 1:6, Ok, Ek)
+```
+
+- El valor del estadístico del contraste con nuestros datos es:
+
+```{r}
+( chisq0 = sum( (Ok - Ek)^2 / Ek ) )
+```
+
+```{r}
+K = 6
+r = 0
+alfa = 0.05
+#
+curve( dchisq(x, df = K-r-1), add = F, from = 0, to = 40)
+points(qchisq(alfa/2, df = K-r-1),0,col = "red", pch = 19)
+points(qchisq(1-alfa/2, df = K-r-1),0,col = "red", pch = 19)
+points(chisq0,0,col = "green", pch = 19)
+```
+
+- En R:
+
+```{r}
+chisq.test(Ok, p = rep(1/6,6))
+```
+
+## Contraste $\chi^2$ de bondad de ajuste para la distribución normal
+
+- Vamos a comprobar la normalidad de la altura de los hombres:
+
+```{r}
+d <- read.table("body.dat.txt")
+# peso
+altura = d[,24]
+# peso de los hombres
+alturaH = altura[d[,25] == 1]
+```
+
+- Dividimos los datos en intervalos. El histograma lo hace automaticamente:
+
+```{r}
+h = hist(alturaH, breaks = seq(from = 155, to = 200, by = 5), label = T)
+```
+
+- Es recomendable que los intervalos tengan más de 5 datos. En caso contrario, agrupamos:
+
+```{r}
+intervalos = c(155,165,170,175,180,185,190,200)
+h = hist(alturaH, breaks = intervalos, plot = F)
+```
+
+- Valores observados:
+
+```{r}
+( Ok = h$counts )
+```
+
+- Valores esperados
+
+```{r}
+# H0 : X ~ N(mean(x), sd(x))
+K = length(intervalos)
+intervalos[1] = -1e6
+intervalos[K] = 1e6
+pE = rep(0,K-1) # probabilidades esperadas
+for (k in 1:(K-1)){
+  p1 = pnorm(intervalos[k], mean(alturaH), sd(alturaH))
+  p2 = pnorm(intervalos[k+1], mean(alturaH), sd(alturaH))
+  pE[k] = p2 - p1
+}
+( Ek = pE*sum(length(alturaH)) ) # datos esperados en cada intervalo
+```
+
+- Valor del estadistico del contraste:
+
+```{r}
+( chisq0 = sum( (Ok - Ek)^2 / Ek ) )
+```
+
+```{r}
+r = 2
+alfa = 0.05
+#
+curve( dchisq(x, df = K-r-1), add = F, from = 0, to = 40)
+points(qchisq(alfa/2, df = K-r-1),0,col = "red", pch = 19)
+points(qchisq(1-alfa/2, df = K-r-1),0,col = "red", pch = 19)
+points(chisq0,0,col = "green", pch = 19)
+```
+
+- Luego no se puede rechazar la hipotesis nula (los datos son normales).
+
+- En R:
+
+```{r}
+chisq.test(Ok, p = pE)
+```
+
+- Ojo, en R los grados de libertad son K - 1.
+
+
+
+
+
+
